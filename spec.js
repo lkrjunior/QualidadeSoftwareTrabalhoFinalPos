@@ -29,8 +29,8 @@ describe('Trabalho Final Qualidade de Software', function() {
 	var itemParaAdicionarNaSacola = element.all(by.css('.size-item > span')).first();
 	var botaoAdicionarItemNaSacola = element.all(by.css('.btn-add-area > a')).first();
 	var mensagemItemAdicionadoNaSacola = "Adicionado com sucesso";
-	var botaoMinhaSacola = element.all(by.css('.title')).first();
-	var botaoRemoverItemDaSacola = element.all(by.css('.info > a')).first();
+	var botaoMinhaSacola = element.all(by.css('.top-cart > a')).first();
+	var botaoRemoverItemDaSacola = element.all(by.css('.details > a')).first();
 	var alertCarrinhoVazio = element.all(by.css('.cart-empty > h5')).first();
 	var mensagemCarrinhoVazio = "Sua sacola de compras está vazio!";
 
@@ -101,7 +101,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 		expect(alertMensagem.getText()).toBe(mensagemItemAdicionadoNaSacola);
 	});
 
-	/*
+	
 	it('Remover um item da sacola', function() {
 		pesquisarProduto('tenis');
 		
@@ -112,5 +112,5 @@ describe('Trabalho Final Qualidade de Software', function() {
 		browser.wait(expectedConditions.visibilityOf(alertCarrinhoVazio), timeOutExpectedConditions, mensagemNaoEncontrada);
 		expect(alertCarrinhoVazio.getText()).toBe(mensagemCarrinhoVazio);
 	});
-	*/
+	
 });
