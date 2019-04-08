@@ -25,10 +25,14 @@ describe('Trabalho Final Qualidade de Software', function() {
 	var alertMensagemPesquisar = element.all(by.css('.qtd-iten > span > span')).first();
 	var mensagemPesquisarExpect = "encontrados";
 
-	//Var Adicionar itens
+	//Var Adicionar/Remover itens da sacola
 	var itemParaAdicionarNaSacola = element.all(by.css('.size-item > span')).first();
-	var botaoAdicionarItemNaSacola = element.all(by.css('.btn-add-area > a')).first()
+	var botaoAdicionarItemNaSacola = element.all(by.css('.btn-add-area > a')).first();
 	var mensagemItemAdicionadoNaSacola = "Adicionado com sucesso";
+	var botaoMinhaSacola = element.all(by.css('.title')).first();
+	var botaoRemoverItemDaSacola = element.all(by.css('.info > a')).first();
+	var alertCarrinhoVazio = element.all(by.css('.cart-empty > h5')).first();
+	var mensagemCarrinhoVazio = "Sua sacola de compras está vazio!";
 
 	//Function BeforeEach
 	beforeEach(function() {
@@ -65,6 +69,14 @@ describe('Trabalho Final Qualidade de Software', function() {
 		botaoAdicionarItemNaSacola.click();
 	}
 
+	removerItemDaSacola = function () {
+		browser.wait(expectedConditions.visibilityOf(botaoMinhaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		botaoMinhaSacola.click();
+		
+		browser.wait(expectedConditions.visibilityOf(botaoRemoverItemDaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		botaoRemoverItemDaSacola.click();
+	}
+
 	//Testes
 	it('Teste do login inválido', function() {
 		efetuarLogin('teste', '');
@@ -86,6 +98,19 @@ describe('Trabalho Final Qualidade de Software', function() {
 		adicionarItemNaSacola();
 
 		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, mensagemNaoEncontrada);
-		expect(alertMensagem.getText()).toContain(mensagemItemAdicionadoNaSacola);
+		expect(alertMensagem.getText()).toBe(mensagemItemAdicionadoNaSacola);
 	});
+
+	/*
+	it('Remover um item da sacola', function() {
+		pesquisarProduto('tenis');
+		
+		adicionarItemNaSacola();
+
+		removerItemDaSacola();
+
+		browser.wait(expectedConditions.visibilityOf(alertCarrinhoVazio), timeOutExpectedConditions, mensagemNaoEncontrada);
+		expect(alertCarrinhoVazio.getText()).toBe(mensagemCarrinhoVazio);
+	});
+	*/
 });
