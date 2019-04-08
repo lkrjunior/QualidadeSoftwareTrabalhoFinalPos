@@ -45,35 +45,35 @@ describe('Trabalho Final Qualidade de Software', function() {
 	efetuarLogin = function (email, senha) {
 		botaoLoginEntrar.click();
 		
-		browser.wait(expectedConditions.visibilityOf(campoLogin), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(campoLogin), timeOutExpectedConditions, "campoLogin - " + mensagemElementoNaoEncontrado);
 		campoLogin.sendKeys(email);
 
-		browser.wait(expectedConditions.visibilityOf(campoSenha), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(campoSenha), timeOutExpectedConditions, "campoSenha - " + mensagemElementoNaoEncontrado);
 		campoSenha.sendKeys(senha);
 
-		browser.wait(expectedConditions.visibilityOf(botaoLogin), timeOutExpectedConditions, mensagemBotaoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(botaoLogin), timeOutExpectedConditions, "botaoLogin - " + mensagemBotaoNaoEncontrado);
 		botaoLogin.click();
 	}
 	
 	pesquisarProduto = function (pesquisa) {
-		browser.wait(expectedConditions.visibilityOf(campoPesquisar), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(campoPesquisar), timeOutExpectedConditions, "campoPesquisar - " + mensagemElementoNaoEncontrado);
 		campoPesquisar.sendKeys(pesquisa);
 		campoPesquisar.sendKeys(protractor.Key.ENTER);
 	}
 
 	adicionarItemNaSacola = function () {
-		browser.wait(expectedConditions.visibilityOf(itemParaAdicionarNaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(itemParaAdicionarNaSacola), timeOutExpectedConditions, "itemParaAdicionarNaSacola - " + mensagemElementoNaoEncontrado);
 		itemParaAdicionarNaSacola.click();
 		
-		browser.wait(expectedConditions.visibilityOf(botaoAdicionarItemNaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(botaoAdicionarItemNaSacola), timeOutExpectedConditions, "botaoAdicionarItemNaSacola - " + mensagemElementoNaoEncontrado);
 		botaoAdicionarItemNaSacola.click();
 	}
 
 	removerItemDaSacola = function () {
-		browser.wait(expectedConditions.visibilityOf(botaoMinhaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(botaoMinhaSacola), timeOutExpectedConditions, "botaoMinhaSacola - " + mensagemElementoNaoEncontrado);
 		botaoMinhaSacola.click();
 		
-		browser.wait(expectedConditions.visibilityOf(botaoRemoverItemDaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		browser.wait(expectedConditions.visibilityOf(botaoRemoverItemDaSacola), timeOutExpectedConditions, "botaoRemoverItemDaSacola - " + mensagemElementoNaoEncontrado);
 		botaoRemoverItemDaSacola.click();
 	}
 
@@ -81,14 +81,14 @@ describe('Trabalho Final Qualidade de Software', function() {
 	it('Teste do login inválido', function() {
 		efetuarLogin('teste', '');
 		
-		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, mensagemNaoEncontrada);
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
 		expect(alertMensagem.getText()).toBe(mensagemLoginInvalidoExpect);
 	});
 
 	it('Pesquisando um item no site', function() {
 		pesquisarProduto('tenis');
 		
-		browser.wait(expectedConditions.visibilityOf(alertMensagemPesquisar), timeOutExpectedConditions, mensagemNaoEncontrada);
+		browser.wait(expectedConditions.visibilityOf(alertMensagemPesquisar), timeOutExpectedConditions, "alertMensagemPesquisar - " + mensagemNaoEncontrada);
 		expect(alertMensagemPesquisar.getText()).toContain(mensagemPesquisarExpect);
 	});
 
@@ -97,7 +97,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 		
 		adicionarItemNaSacola();
 
-		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, mensagemNaoEncontrada);
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
 		expect(alertMensagem.getText()).toBe(mensagemItemAdicionadoNaSacola);
 	});
 
@@ -109,7 +109,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 		removerItemDaSacola();
 
-		browser.wait(expectedConditions.visibilityOf(alertCarrinhoVazio), timeOutExpectedConditions, mensagemNaoEncontrada);
+		browser.wait(expectedConditions.visibilityOf(alertCarrinhoVazio), timeOutExpectedConditions, "alertCarrinhoVazio - " + mensagemNaoEncontrada);
 		expect(alertCarrinhoVazio.getText()).toBe(mensagemCarrinhoVazio);
 	});
 	
