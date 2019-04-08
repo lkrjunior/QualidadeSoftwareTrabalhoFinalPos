@@ -93,7 +93,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 	});
 
 	it('Adicionando um item na sacola', function() {
-		pesquisarProduto('tenis');
+		pesquisarProduto('oculos');
 		
 		adicionarItemNaSacola();
 
@@ -103,7 +103,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 	
 	it('Remover um item da sacola', function() {
-		pesquisarProduto('tenis');
+		pesquisarProduto('oculos');
 		
 		adicionarItemNaSacola();
 
