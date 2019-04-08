@@ -18,7 +18,13 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 	//Var Mensagens
 	var alertMensagemLoginInvalido = $('.message-alert');
-	
+
+	//Var Pesquisar
+	var campoPesquisar = element(by.id('instantSearch'));
+	//var alertMensagemPesquisar = $('.qtd-iten > span > span');
+	var alertMensagemPesquisar = element.all(by.css('.qtd-iten > span > span')).first();
+	var mensagemPesquisarExpect = "encontrados";
+
 	//Function BeforeEach
 	beforeEach(function() {
 		browser.waitForAngularEnabled(false);
@@ -26,8 +32,8 @@ describe('Trabalho Final Qualidade de Software', function() {
 		browser.manage().window().setSize(1600, 1000);
 	});
 
-	//Functions Login
-	login = function (email, senha) {
+	//Functions
+	efetuarLogin = function (email, senha) {
 		botaoLoginEntrar.click();
 		
 		browser.wait(expectedConditions.visibilityOf(campoLogin), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
@@ -38,13 +44,26 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 		browser.wait(expectedConditions.visibilityOf(botaoLogin), timeOutExpectedConditions, mensagemBotaoNaoEncontrado);
 		botaoLogin.click();
-	  }
+	}
 	
+	pesquisarProduto = function (pesquisa) {
+		browser.wait(expectedConditions.visibilityOf(campoPesquisar), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		campoPesquisar.sendKeys(pesquisa);
+		campoPesquisar.sendKeys(protractor.Key.ENTER);
+	}
+
 	//Testes
 	it('Teste do login inválido', function() {
-		login('teste', '');
+		efetuarLogin('teste', '');
 		
 		browser.wait(expectedConditions.visibilityOf(alertMensagemLoginInvalido), timeOutExpectedConditions, mensagemNaoEncontrada);
 		expect(alertMensagemLoginInvalido.getText()).toBe(mensagemLoginInvalidoExpect);
+	});
+
+	it('Pesquisando um item no site', function() {
+		pesquisarProduto('tenis');
+		
+		browser.wait(expectedConditions.visibilityOf(alertMensagemPesquisar), timeOutExpectedConditions, mensagemNaoEncontrada);
+		expect(alertMensagemPesquisar.getText()).toContain(mensagemPesquisarExpect);
 	});
 });
