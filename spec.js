@@ -17,13 +17,18 @@ describe('Trabalho Final Qualidade de Software', function() {
 	var botaoLogin = $('.bt-login');
 
 	//Var Mensagens
-	var alertMensagemLoginInvalido = $('.message-alert');
+	var alertMensagem = $('.message-alert');
 
 	//Var Pesquisar
 	var campoPesquisar = element(by.id('instantSearch'));
 	//var alertMensagemPesquisar = $('.qtd-iten > span > span');
 	var alertMensagemPesquisar = element.all(by.css('.qtd-iten > span > span')).first();
 	var mensagemPesquisarExpect = "encontrados";
+
+	//Var Adicionar itens
+	var itemParaAdicionarNaSacola = element.all(by.css('.size-item > span')).first();
+	var botaoAdicionarItemNaSacola = element.all(by.css('.btn-add-area > a')).first()
+	var mensagemItemAdicionadoNaSacola = "Adicionado com sucesso";
 
 	//Function BeforeEach
 	beforeEach(function() {
@@ -52,12 +57,20 @@ describe('Trabalho Final Qualidade de Software', function() {
 		campoPesquisar.sendKeys(protractor.Key.ENTER);
 	}
 
+	adicionarItemNaSacola = function () {
+		browser.wait(expectedConditions.visibilityOf(itemParaAdicionarNaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		itemParaAdicionarNaSacola.click();
+		
+		browser.wait(expectedConditions.visibilityOf(botaoAdicionarItemNaSacola), timeOutExpectedConditions, mensagemElementoNaoEncontrado);
+		botaoAdicionarItemNaSacola.click();
+	}
+
 	//Testes
 	it('Teste do login inválido', function() {
 		efetuarLogin('teste', '');
 		
-		browser.wait(expectedConditions.visibilityOf(alertMensagemLoginInvalido), timeOutExpectedConditions, mensagemNaoEncontrada);
-		expect(alertMensagemLoginInvalido.getText()).toBe(mensagemLoginInvalidoExpect);
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toBe(mensagemLoginInvalidoExpect);
 	});
 
 	it('Pesquisando um item no site', function() {
@@ -65,5 +78,14 @@ describe('Trabalho Final Qualidade de Software', function() {
 		
 		browser.wait(expectedConditions.visibilityOf(alertMensagemPesquisar), timeOutExpectedConditions, mensagemNaoEncontrada);
 		expect(alertMensagemPesquisar.getText()).toContain(mensagemPesquisarExpect);
+	});
+
+	it('Adicionando um item na sacola', function() {
+		pesquisarProduto('tenis');
+		
+		adicionarItemNaSacola();
+
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toContain(mensagemItemAdicionadoNaSacola);
 	});
 });
