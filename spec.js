@@ -7,6 +7,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 	const mensagemLoginInvalidoExpect = "Por favor preencha o e-mail corretamente.";
 	const mensagemEmailSenhaInvalidoExpect = "E-mail ou senha não confere.";
 	const mensagemLoginSemSenha = "Por favor preencha a sua senha.";
+	const mensagemEmailJaCadastradoNaLoja = "O e-mail informado já está cadastrado em nossa loja!";
 
 	//Var ExpectedConditions
 	var expectedConditions = protractor.ExpectedConditions;
@@ -17,6 +18,8 @@ describe('Trabalho Final Qualidade de Software', function() {
 	var campoLogin = element(by.name('logar_email'));
 	var campoSenha = element(by.name('logar_senha'));
 	var botaoLogin = $('.bt-login');
+	var campoEmailCadastro = element(by.name('cadastrar_email'));
+	var botaoCadastrar = $('.bt-register');
 
 	//Var Mensagens
 	var alertMensagem = $('.message-alert');
@@ -60,6 +63,16 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 		browser.wait(expectedConditions.visibilityOf(botaoLogin), timeOutExpectedConditions, "botaoLogin - " + mensagemBotaoNaoEncontrado);
 		botaoLogin.click();
+	}
+
+	cadastrarEmailNaLoja = function (email) {
+		botaoLoginEntrar.click();
+		
+		browser.wait(expectedConditions.visibilityOf(campoEmailCadastro), timeOutExpectedConditions, "campoEmailCadastro - " + mensagemElementoNaoEncontrado);
+		campoEmailCadastro.sendKeys(email);
+
+		browser.wait(expectedConditions.visibilityOf(botaoCadastrar), timeOutExpectedConditions, "botaoCadastrar - " + mensagemBotaoNaoEncontrado);
+		botaoCadastrar.click();
 	}
 	
 	pesquisarProduto = function (pesquisa) {
@@ -136,6 +149,13 @@ describe('Trabalho Final Qualidade de Software', function() {
 		
 		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
 		expect(alertMensagem.getText()).toBe(mensagemEmailSenhaInvalidoExpect);
+	});
+
+	it('Validar e-mail já cadastrado na loja', function() {
+		cadastrarEmailNaLoja('lkrjunior@terra.com.br');
+		
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toBe(mensagemEmailJaCadastradoNaLoja);
 	});
 
 	it('Pesquisando um item no site', function() {
