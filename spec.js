@@ -19,6 +19,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 	//Var Mensagens
 	var alertMensagem = $('.message-alert');
+	var botaoFecharAlertMensagem = $('.close');
 
 	//Var Pesquisar
 	var campoPesquisar = element(by.id('instantSearch'));
@@ -98,6 +99,15 @@ describe('Trabalho Final Qualidade de Software', function() {
 		campoCepNaMinhaSacola.sendKeys(protractor.Key.ENTER);
 	}
 
+	abrirPaginaInicial = function () {
+		browser.get('https://www.radanesportes.com.br/');
+	}
+
+	fecharMensagemDeAlerta = function() {
+		browser.wait(expectedConditions.visibilityOf(botaoFecharAlertMensagem), timeOutExpectedConditions, "botaoFecharAlertMensagem - " + mensagemElementoNaoEncontrado);
+		botaoFecharAlertMensagem.click();		
+	}
+
 	//Testes
 	it('Teste do login inválido', function() {
 		efetuarLogin('teste', '');
@@ -152,6 +162,9 @@ describe('Trabalho Final Qualidade de Software', function() {
 		pesquisarProduto('oculos');
 
 		adicionarItemNaSacola();
+
+		//abrirPaginaInicial();
+		fecharMensagemDeAlerta();
 
 		entrarNoMenuMinhaSacola();
 
