@@ -36,6 +36,8 @@ describe('Trabalho Final Qualidade de Software', function() {
 	var botaoRemoverItemDaSacola = element.all(by.css('.details > a')).first();
 	var alertCarrinhoVazio = element.all(by.css('.cart-empty > h5')).first();
 	var mensagemCarrinhoVazio = "Sua sacola de compras está vazio!";
+	var campoCepNaMinhaSacola = element(by.id('ctrConsultaFreteCep'));
+	var mensagemComOValorDoFrete = element.all(by.name('frete_modalidade')).first();
 
 	//Function BeforeEach
 	beforeEach(function() {
@@ -72,9 +74,13 @@ describe('Trabalho Final Qualidade de Software', function() {
 		botaoAdicionarItemNaSacola.click();
 	}
 
-	removerItemDaSacola = function () {
+	entrarNoMenuMinhaSacola = function () {
 		browser.wait(expectedConditions.visibilityOf(botaoMinhaSacola), timeOutExpectedConditions, "botaoMinhaSacola - " + mensagemElementoNaoEncontrado);
-		botaoMinhaSacola.click();
+		botaoMinhaSacola.click();		
+	}
+
+	removerItemDaSacola = function () {
+		entrarNoMenuMinhaSacola();
 		
 		browser.wait(expectedConditions.visibilityOf(botaoRemoverItemDaSacola), timeOutExpectedConditions, "botaoRemoverItemDaSacola - " + mensagemElementoNaoEncontrado);
 		botaoRemoverItemDaSacola.click();
@@ -84,6 +90,12 @@ describe('Trabalho Final Qualidade de Software', function() {
 		browser.wait(expectedConditions.visibilityOf(campoReceberNovidadesEmail), timeOutExpectedConditions, "campoReceberNovidadesEmail - " + mensagemElementoNaoEncontrado);
 		campoReceberNovidadesEmail.sendKeys(email);
 		campoReceberNovidadesEmail.sendKeys(protractor.Key.ENTER);
+	}
+
+	inserirCepParaCalculo = function (cep) {
+		browser.wait(expectedConditions.visibilityOf(campoCepNaMinhaSacola), timeOutExpectedConditions, "campoCepNaMinhaSacola - " + mensagemElementoNaoEncontrado);
+		campoCepNaMinhaSacola.sendKeys(cep);
+		campoCepNaMinhaSacola.sendKeys(protractor.Key.ENTER);
 	}
 
 	//Testes
@@ -136,4 +148,17 @@ describe('Trabalho Final Qualidade de Software', function() {
 		expect(alertMensagem.getText()).toContain(mensagemCadastroReceberNovidades);
 	});
 	
+	it('Validar valor do frete na minha sacola', function() {
+		pesquisarProduto('oculos');
+
+		adicionarItemNaSacola();
+
+		entrarNoMenuMinhaSacola();
+
+		inserirCepParaCalculo('93200000');
+
+		browser.wait(expectedConditions.visibilityOf(mensagemComOValorDoFrete), timeOutExpectedConditions, "mensagemComOValorDoFrete - " + mensagemNaoEncontrada);
+		expect(mensagemComOValorDoFrete.getText()).toBe('');
+	});
+
 });
