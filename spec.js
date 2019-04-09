@@ -6,7 +6,8 @@ describe('Trabalho Final Qualidade de Software', function() {
 	const mensagemNaoEncontrada = "Mensagem não encontrada";
 	const mensagemLoginInvalidoExpect = "Por favor preencha o e-mail corretamente.";
 	const mensagemEmailSenhaInvalidoExpect = "E-mail ou senha não confere.";
-	
+	const mensagemLoginSemSenha = "Por favor preencha a sua senha.";
+
 	//Var ExpectedConditions
 	var expectedConditions = protractor.ExpectedConditions;
 	var timeOutExpectedConditions = 10000;
@@ -109,11 +110,25 @@ describe('Trabalho Final Qualidade de Software', function() {
 	}
 
 	//Testes
-	it('Teste do login inválido', function() {
+	it('Teste do login sem informar o e-mail', function() {
+		efetuarLogin('', '');
+		
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toBe(mensagemLoginInvalidoExpect);
+	});
+
+	it('Teste do login com e-mail inválido', function() {
 		efetuarLogin('teste', '');
 		
 		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
 		expect(alertMensagem.getText()).toBe(mensagemLoginInvalidoExpect);
+	});
+
+	it('Teste do login sem informar a senha', function() {
+		efetuarLogin('teste@teste.com.br', '');
+		
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toBe(mensagemLoginSemSenha);
 	});
 
 	it('Teste do login com usuário e/ou senha inválido', function() {
