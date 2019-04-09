@@ -5,6 +5,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 	const mensagemBotaoNaoEncontrado = "Botão não encontrado";
 	const mensagemNaoEncontrada = "Mensagem não encontrada";
 	const mensagemLoginInvalidoExpect = "Por favor preencha o e-mail corretamente.";
+	const mensagemEmailSenhaInvalidoExpect = "E-mail ou senha não confere.";
 	
 	//Var ExpectedConditions
 	var expectedConditions = protractor.ExpectedConditions;
@@ -24,6 +25,8 @@ describe('Trabalho Final Qualidade de Software', function() {
 	//var alertMensagemPesquisar = $('.qtd-iten > span > span');
 	var alertMensagemPesquisar = element.all(by.css('.qtd-iten > span > span')).first();
 	var mensagemPesquisarExpect = "encontrados";
+	var campoReceberNovidadesEmail = element(by.name('ofertas_email'));
+	var mensagemCadastroReceberNovidades = "com sucesso";
 
 	//Var Adicionar/Remover itens da sacola
 	var itemParaAdicionarNaSacola = element.all(by.css('.size-item > span')).first();
@@ -77,12 +80,25 @@ describe('Trabalho Final Qualidade de Software', function() {
 		botaoRemoverItemDaSacola.click();
 	}
 
+	adicionarEmailParaReceberNovidadesDoSite = function (email) {
+		browser.wait(expectedConditions.visibilityOf(campoReceberNovidadesEmail), timeOutExpectedConditions, "campoReceberNovidadesEmail - " + mensagemElementoNaoEncontrado);
+		campoReceberNovidadesEmail.sendKeys(email);
+		campoReceberNovidadesEmail.sendKeys(protractor.Key.ENTER);
+	}
+
 	//Testes
 	it('Teste do login inválido', function() {
 		efetuarLogin('teste', '');
 		
 		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
 		expect(alertMensagem.getText()).toBe(mensagemLoginInvalidoExpect);
+	});
+
+	it('Teste do login com usuário e/ou senha inválido', function() {
+		efetuarLogin('teste@teste.com.br', 'senhateste');
+		
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toBe(mensagemEmailSenhaInvalidoExpect);
 	});
 
 	it('Pesquisando um item no site', function() {
@@ -111,6 +127,13 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 		browser.wait(expectedConditions.visibilityOf(alertCarrinhoVazio), timeOutExpectedConditions, "alertCarrinhoVazio - " + mensagemNaoEncontrada);
 		expect(alertCarrinhoVazio.getText()).toBe(mensagemCarrinhoVazio);
+	});
+
+	it('Receber as novidades do site', function() {
+		adicionarEmailParaReceberNovidadesDoSite("teste@teste.com.br");
+
+		browser.wait(expectedConditions.visibilityOf(alertMensagem), timeOutExpectedConditions, "alertMensagem - " + mensagemNaoEncontrada);
+		expect(alertMensagem.getText()).toContain(mensagemCadastroReceberNovidades);
 	});
 	
 });
