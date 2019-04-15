@@ -12,6 +12,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 	//Var ExpectedConditions
 	var expectedConditions = protractor.ExpectedConditions;
 	var timeOutExpectedConditions = 10000;
+	var timeOutExpectedConditionsFrete = 30000;
 	
 	//Var Login
 	var botaoLoginEntrar = $('.last > a');
@@ -205,7 +206,7 @@ describe('Trabalho Final Qualidade de Software', function() {
 
 		inserirCepParaCalculo('93200000');
 
-		browser.wait(expectedConditions.visibilityOf(mensagemComOValorDoFrete), timeOutExpectedConditions, "mensagemComOValorDoFrete - " + mensagemNaoEncontrada);
+		browser.wait(expectedConditions.visibilityOf(mensagemComOValorDoFrete), timeOutExpectedConditionsFrete, "mensagemComOValorDoFrete - " + mensagemNaoEncontrada);
 		expect(mensagemComOValorDoFrete.getText()).toBe('');
 	});
 
